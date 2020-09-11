@@ -11,9 +11,14 @@ module FormsLab
       erb :'pirates/new'
     end
     post '/pirates' do
-      @pirate = Pirate.new(params[:pirate])
-      params[:pirate][:ships].each do |details|
-        Ship.new(details)
+      @pirate = Pirate.new(params)
+      @pirate.name = params[:pirate][:name]
+      @pirate.weight = params[:pirate][:weight]
+      @pirate.height = params[:pirate][:height]
+      ship_deets = params[:pirate][:ships]
+
+      ship_deets.each do |deet_params|
+        Ship.new({name: deet_params[:name], type: deet_params[:type], booty: deet_params[:booty]})
       end
       @ships = Ship.all
 
